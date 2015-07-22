@@ -1,0 +1,39 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/brian/.nvm/versions/node/v0.12.7/bin/node',
+1 verbose cli   '/home/brian/.nvm/versions/node/v0.12.7/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'test:w' ]
+2 info using npm@2.11.3
+3 info using node@v0.12.7
+4 verbose run-script [ 'pretest:w', 'test:w', 'posttest:w' ]
+5 info pretest:w paint-optimizer@1.0.0
+6 info test:w paint-optimizer@1.0.0
+7 verbose unsafe-perm in lifecycle true
+8 info paint-optimizer@1.0.0 Failed to exec test:w script
+9 verbose stack Error: paint-optimizer@1.0.0 test:w: `chokidar '**/*.js' -i 'node_modules' -c 'npm run --silent test'`
+9 verbose stack spawn ENOENT
+9 verbose stack     at ChildProcess.<anonymous> (/home/brian/.nvm/versions/node/v0.12.7/lib/node_modules/npm/lib/utils/spawn.js:17:16)
+9 verbose stack     at ChildProcess.emit (events.js:110:17)
+9 verbose stack     at maybeClose (child_process.js:1015:16)
+9 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1087:5)
+10 verbose pkgid paint-optimizer@1.0.0
+11 verbose cwd /home/brian/dev/paint-optimizer
+12 error Linux 3.13.0-37-generic
+13 error argv "/home/brian/.nvm/versions/node/v0.12.7/bin/node" "/home/brian/.nvm/versions/node/v0.12.7/bin/npm" "run" "test:w"
+14 error node v0.12.7
+15 error npm  v2.11.3
+16 error file sh
+17 error code ELIFECYCLE
+18 error errno ENOENT
+19 error syscall spawn
+20 error paint-optimizer@1.0.0 test:w: `chokidar '**/*.js' -i 'node_modules' -c 'npm run --silent test'`
+20 error spawn ENOENT
+21 error Failed at the paint-optimizer@1.0.0 test:w script 'chokidar '**/*.js' -i 'node_modules' -c 'npm run --silent test''.
+21 error This is most likely a problem with the paint-optimizer package,
+21 error not with npm itself.
+21 error Tell the author that this fails on your system:
+21 error     chokidar '**/*.js' -i 'node_modules' -c 'npm run --silent test'
+21 error You can get their info via:
+21 error     npm owner ls paint-optimizer
+21 error There is likely additional logging output above.
+22 verbose exit [ 1, true ]
