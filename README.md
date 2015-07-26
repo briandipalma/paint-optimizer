@@ -1,9 +1,8 @@
-# ES2015+ Babel, webpack and React project
+# ES2015+ Babel project
 
 # Setup
 
 * Install node.
 * Clone repo `git clone git@github.com:briandipalma/paint-optimizer.git`
 * Run `npm i`
-* Run `npm start`
-* Navigate to http://localhost:8080/bundle
+* Run `npm t` to run tests.
