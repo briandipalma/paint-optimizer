@@ -3,12 +3,17 @@ import {
 	deepEqual
 } from "assert";
 
+import {join} from "path";
+
 import {
 	it,
 	describe
 } from "mocha";
 
-import {
+import optimizer, {
+	parseFileInput,
+	readFileContents,
+	parseFileInputLine,
 	padPossibleSolution,
 	findCheapestSolution,
 	sortPossibleSolutions,
@@ -202,4 +207,69 @@ describe("Paint optimizer", () => {
 			equal(solution, expectedSolution);
 		});
 	})
+
+	it("readFileContents reads and breaks a file into lines", () => {
+		// Given.
+		const fileName = join(__dirname, "testInput.txt");
+
+		// When.
+		const fileLines = readFileContents(fileName);
+
+		// Then.
+		equal(fileLines.length, 4);
+		equal(fileLines[0], "5");
+		equal(fileLines[1], "1 M 3 G 5 G");
+		equal(fileLines[2], "2 G 3 M 4 G");
+		equal(fileLines[3], "5 M");
+	});
+
+	it("parseFileInputLine", () => {
+		// Given.
+		const fileLine = "2 G 3 M 4 G";
+
+		// When.
+		const clientRequirements = parseFileInputLine(fileLine);
+
+		// Then.
+		equal(clientRequirements.size, 3);
+		equal(clientRequirements.get(1), 0);
+		equal(clientRequirements.get(2), 1);
+	});
+
+	it("parseFileInput", () => {
+		// Given
+		const fileLines = ["5", "1 M 3 G 5 G", "2 G 3 M 4 G", "5 M"];
+
+		// When.
+		const {colors, allRequirements} = parseFileInput(fileLines);
+
+		// Then.
+		equal(colors, 5);
+		equal("1", allRequirements.get(0).get(0));
+		equal("0", allRequirements.get(0).get(2));
+		equal("1", allRequirements.get(2).get(4));
+		equal(3, allRequirements.size);
+	});
+
+	it("optimizer finds cheapest solution", () => {
+		// Given.
+		const fileName = join(__dirname, "testInput.txt");
+
+		// When.
+		const cheapestSolution = optimizer([fileName]);
+
+		// Then.
+		equal(cheapestSolution, "G G G G M ");
+	});
+
+	it("optimizer notifies of no solution if it can't find one", () => {
+		// Given.
+		const fileName = join(__dirname, "testInputFail.txt");
+
+		// When.
+		const cheapestSolution = optimizer([fileName]);
+
+		// Then.
+		equal(cheapestSolution, "No solution exists");
+	});
 });

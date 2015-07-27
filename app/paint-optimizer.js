@@ -1,3 +1,4 @@
+import {readFileSync} from "fs";
 
 /**
  * Given the number of colors will return an array the length of the possible solutions with the values
@@ -88,6 +89,85 @@ export function findCheapestSolution(colors, allRequirements) {
 		.sort(sortPossibleSolutions("1"))
 		.map(padPossibleSolution(colors, "0"))
 		.find(doesSolutionSatisfyAllClients(allRequirements));
+}
+
+/**
+ * Reads the contents of `fileName` and breaks it up by new line.
+ *
+ * @param {string} file
+ * @returns {Array<string>}
+ */
+export function readFileContents(fileName) {
+	const fileContents = readFileSync(fileName, {encoding: "utf8"});
+
+	return fileContents.split("\n");
+}
+
+/**
+ * Parses and transforms the file input lines into data structures required by module functions to
+ * solve optimization problem.
+ *
+ * @param {Array<string>} fileLines
+ * @returns {{colors: Number, allRequirements: Map}}
+ */
+export function parseFileInput(fileLines) {
+	const allRequirements = new Map();
+	const colors = parseInt(fileLines.shift(), 10);
+
+	for (let line of fileLines) {
+		let clientRequirements = parseFileInputLine(line);
+
+		allRequirements.set(allRequirements.size, clientRequirements);
+	}
+
+	return {colors, allRequirements};
+}
+
+/**
+ * Parses and transforms a single line in a problem input file.
+ *
+ * @param {string} line
+ * @returns {Map}
+ */
+export function parseFileInputLine(line) {
+	const clientRequirements = new Map();
+	const clientRequirementTokens = line.split(/\s/);
+
+	for (let requirementTokens = 0; requirementTokens < clientRequirementTokens.length; requirementTokens+=2) {
+		const colorID = clientRequirementTokens[requirementTokens];
+		const colorType = clientRequirementTokens[requirementTokens + 1];
+		const mappedColourID = parseInt(colorID, 10) - 1;
+		const mappedColorType = colorType === "G" ? "0" : "1";
+
+		clientRequirements.set(mappedColourID, mappedColorType);
+	}
+
+	return clientRequirements;
+}
+
+/**
+ * Parses the first index in the provided array as an input file and finds the cheapest solution.
+ *
+ * @param {Array<string>}
+ * @returns {string}
+ */
+export default function optimizer([fileName]) {
+	const fileLines = readFileContents(fileName);
+	const {colors, allRequirements} = parseFileInput(fileLines);
+	const cheapestSolution = findCheapestSolution(colors, allRequirements);
+
+	if (cheapestSolution === undefined) {
+		return "No solution exists";
+	} else {
+		let transformedSolution = "";
+
+		for (let encodedColor of cheapestSolution) {
+			const decodedColor = encodedColor === "0" ? "G" : "M";
+			transformedSolution += decodedColor + " ";
+		}
+
+		return transformedSolution
+	}
 }
 
 /**
