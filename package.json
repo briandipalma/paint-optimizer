@@ -1,6 +1,7 @@
 {
   "name": "paint-optimizer",
   "version": "1.0.0",
+  "bin": "./bin/paint-optimizer-cli.js",
   "description": "ES2015+ Babel, Webpack and React project",
   "scripts": {
     "build": "webpack --progress --colors",
